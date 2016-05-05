@@ -1,3 +1,7 @@
+.navbar-fixed-top{
+	margin-top: 70px;
+	background-color: #09f;
+}
 .panel-group{
 	margin: 100px;
 	margin-left: 500px;
@@ -6,4 +10,7 @@
 #post{
 	margin: 100px;
 	margin-left: 500px;
+}
+.body{
+	background-image: url("static/img/background.jpg");
 }

@@ -10,14 +10,9 @@ html>
     <div>Suggestion Box: <a href="/index">Home</a></div>
     <hr>
     <ul class="nav navbar-nav navbar-right">
-      {% if current_user.is_authenticated() %}
-      <li><a href="{{ url_for('/logout') }}">Sign Out</a></li>
-      {% else %}
-      <li><a href="{{ url_for('/login') }}">Sign In</a></li>
-      {% endif %}
+      
     </ul>
-      {% endif %}
-    {% endwith %}
+   
     {% block content %}{% endblock %}
   </body>
 </html>

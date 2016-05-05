@@ -1,4 +1,6 @@
 from app import db
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 
 class User(db.Model):
@@ -9,17 +11,22 @@ class User(db.Model):
 	password= db.Column(db.String(128))
 	posts = db.relationship('Post', backref='author', lazy='dynamic')
 
-	@property
-	def is_authenticated(self):
-		return True
-
+	
 	@property
 	def is_active(self):
 		return True
-
 	@property
-	def is_anonymous(self):
-		return False
+
+	def is_authenticated(self):
+		return True
+
+	def hash_password(self,password):
+		self.password = generate_password_hash(password)
+
+	def verify_password(self,password):
+		return check_password_hash(self.password, password)
+
+
 
 	def get_id(self):
 		try:

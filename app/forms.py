@@ -7,7 +7,6 @@ from models import User
 
 class LoginForm(Form):
 	email = StringField('Email', validators=[Required(),Email()])
-	username = StringField('Username', validators=[Required()])
 	password = PasswordField('Password', validators=[Required()])
 	remember_me = BooleanField('keep me logged in')
 	submit = SubmitField('Log In')
@@ -15,14 +14,11 @@ class LoginForm(Form):
 class RegistrationForm(Form):
 	email = StringField('Email', validators=[Required(),Email()])
 
-	username = StringField('Username', validators=[Required(), 
-		 Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
-							'Usernames must have only letters, '
-							'numbers, dots or underscores')])
+	username = StringField('Username', validators=[Required()])
 
 	password = PasswordField('Password', validators=[
 		Required(), EqualTo('password2', message='Passwords must match.')])
-	password2 = PasswordField('Confirm password', validators=[Required()])
+	password2 = PasswordField('Confirm password')
 	submit = SubmitField('Register')
 
 	def validate_email(self, field):
