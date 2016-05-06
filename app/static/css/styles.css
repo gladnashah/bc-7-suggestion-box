@@ -54,18 +54,7 @@ html{
 	text-rendering: optimizelegiability;
 }
 
-.transbox {
-    margin: 200px;
-    background-color: transparent;
-    border: 0px transparent;
-    filter: alpha(opacity=60);
-    
-}
 
-.transbox p {
-    margin: 50%;
-    font-weight: bold;
-    color: #fff;
 }
 /*=== MEDIA QUERIES ===*/
 

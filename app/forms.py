@@ -33,6 +33,6 @@ class RegistrationForm(Form):
 
 class PostForm(Form):
 	title = StringField('Your suggestion title here', validators=[Required()])
-	body = TextAreaField("What's on your mind?", validators=[Required()])
+	body = TextAreaField("What's your suggestion?", validators=[Required()])
 	submit = SubmitField('Submit')
 
