@@ -3,6 +3,8 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextA
 from wtforms.validators import Required, Email, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from models import User
+from flask.ext.bootstrap import Bootstrap
+from flask.ext.pagedown.fields import PageDownField
 
 
 class LoginForm(Form):
@@ -32,4 +34,8 @@ class RegistrationForm(Form):
 class PostForm(Form):
 	title = StringField('Your suggestion title here', validators=[Required()])
 	body = TextAreaField("What's on your mind?", validators=[Required()])
+	submit = SubmitField('Submit')
+
+class CommentForm(Form):
+	body = StringField('', validators=[Required()])
 	submit = SubmitField('Submit')
