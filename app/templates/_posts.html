@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 <ul class="posts">
 	{% for post in posts %}
 	<li class="post">
@@ -13,26 +15,9 @@
 			<a href="{{ url_for('.edit', id=posts.id) }}">
 				<span class="label label-primary">Edit</span>
 			</a>
-			{% elif current_user.is_administrator() %}
-			<a href="{{ url_for('.edit', id=posts.id) }}">
-				span class="label label-danger">Edit [Admin]</span>
-			</a>
-			{% endif %}
-		</div>
-	</li>
-	<a href="{{ url_for('.post', id=post.id) }}#comments">
-		<span class="label label-primary">
-			{{ post.comments.count() }} Comments
-		</span>
-	</a>
+			{% endif  %}
+	
 	{% endfor %}
 
 
-<div class="post-body">
-	{% if post.body_html %}
-		{{ post.body_html | safe }}
-	{% else %}
-		{{ post.body }}
-	{% endif %}
-</div>
 </ul>

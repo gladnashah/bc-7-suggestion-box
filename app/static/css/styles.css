@@ -1,16 +1,100 @@
-.navbar-fixed-top{
-	margin-top: 70px;
-	background-color: #09f;
-}
-.panel-group{
-	margin: 100px;
-	margin-left: 500px;
+/*===GENERAL ===*/
+body{
+margin-top: 50px;
+font-family: 'proxima-nova','Raleway', Haveltica, Sans-serif;
+font-size: 16px;
+<!--background:url('img/bg.jpg')top left repeat;-->
 }
 
-#post{
-	margin: 100px;
-	margin-left: 500px;
+/*===GLOBAL ===*/
+h1,h2,h3,h4,h5,h6{
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizelegibility;
+	font-weight: bold;
 }
-.body{
-	background-image: url("static/img/background.jpg");
+
+h1{
+	font-size:3em;
+}
+h1,h2{
+	margin: 0 0 40px;
+}
+h3{
+	margin: 20px 0;
+}
+h4{
+	font-size:18px;
+}
+p.lead{
+    font-weight: normal;
+}
+
+p{
+    margin: 0 0 15px;
+}
+
+
+navbar-inverse{
+	background: transparent !important;
+	color: #fff !important;
+}
+.nav{
+	background: transparent;
+	opacity: 60;
+}
+
+html{
+	/*background:url('../img/background.jpg') no-repeat fixed;*/
+	background-size: cover;
+	background-position: center center;
+	min-height:500px;
+	padding: 40px 0;
+	color: white;
+	-webkit-font-smoothing: antiliased;
+	text-rendering: optimizelegiability;
+}
+
+.transbox {
+    margin: 200px;
+    background-color: transparent;
+    border: 0px transparent;
+    filter: alpha(opacity=60);
+    
+}
+
+.transbox p {
+    margin: 50%;
+    font-weight: bold;
+    color: #fff;
+}
+/*=== MEDIA QUERIES ===*/
+
+@media screen and (max-width:991px){
+    #instructor .container{
+        background: rgba(255,255,255,0.8);
+         padding:20px;
+    }
+}
+@media screen and (max-width: 768px){
+    .logo{
+        width:50%;
+    }
+    #optin p{
+        margin: 0 0 10px;
+    }
+    #featurette iframe{
+        height: 240px;
+    }
+    .resource{
+       width: 48%;
+       margin-right: 2%;
+       min-height: 800px;
+    }
+}
+@media screen and (max-width: 568px){
+    .resource{
+        width: 100%;
+        margin-right: 0;
+        min-height: 0%;
+    }
 }
