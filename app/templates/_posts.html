@@ -1,23 +1,23 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %}
 <ul class="posts">
-	{% for post in posts %}
-	<li class="post">
-
-		<div class="post-content">
-
-			<div class="post-footer">
-				<a href="{{ url_for('.posts', id=posts.id) }}">
-					<span class="label label-default">Permalink</span>
-				</a>
-			</div>
-			{% if current_user == post.author %}
-			<a href="{{ url_for('.edit', id=posts.id) }}">
-				<span class="label label-primary">Edit</span>
-			</a>
-			{% endif  %}
-	
-	{% endfor %}
-
-
+    {% for post in posts %}
+    <li class="post">
+        <div class="post-content">
+            <div class="post-footer">
+                <a href="{{ url_for('.posts', id=posts.id) }}">
+                    <span class="label label-default">Permalink</span>
+                </a>
+            </div>
+            {% if current_user == post.author %}
+            <a href="{{ url_for('.edit', id=posts.id) }}">
+                <span class="label label-primary">Edit</span>
+            </a>
+            {% endif %}
+            <div class="post-title">
+                {% if post.title_html %} {{ post.title_html | safe }} {% else %} {{ post.title }} {% endif %}
+            </div>
+            <div class="post-body">
+                {% if post.body_html %} {{ post.body_html | safe }} {% else %} {{ post.body }} {% endif %}
+            </div>
+            {% endfor %}
 </ul>

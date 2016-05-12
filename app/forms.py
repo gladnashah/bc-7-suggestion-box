@@ -32,7 +32,7 @@ class RegistrationForm(Form):
 			raise ValidationError('Username already in use.')
 
 class PostForm(Form):
-	title = StringField('Your suggestion title here', validators=[Required()])
-	body = TextAreaField("What's your suggestion?", validators=[Required()])
+	title = PageDownField('Your suggestion title here', validators=[Required()])
+	body = PageDownField("What's your suggestion?", validators=[Required()])
 	submit = SubmitField('Submit')
 

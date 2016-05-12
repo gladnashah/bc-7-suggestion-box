@@ -21,8 +21,8 @@ bootstrap = Bootstrap(app)
 moment = Moment(app)
 pagedown = PageDown(app)
 
-# @app.context_processor
-# def inject_permissions():
-# 	return dict(Permission=Permission)
+@app.context_processor
+def inject_permissions():
+	return dict(Permission=Permission)
 
 from app import views, models

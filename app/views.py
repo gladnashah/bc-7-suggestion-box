@@ -4,16 +4,13 @@ from app import app, db, login_manager
 from forms import LoginForm, RegistrationForm, PostForm
 from models import User, Post
 from flask.ext.wtf import Form
-
-#from decorators import admin_required, permission_required
+from decorators import admin_required, permission_required
 
 
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
 	form = PostForm()
-	# if current_user.is_authenticated and \
-	# 		form.validate_on_submit():
 	if form.validate_on_submit():
 		post = Post(body=form.body.data,
 						author=current_user._get_current_object())
@@ -22,53 +19,6 @@ def index():
 		return redirect(url_for('index'))
 	posts = Post.query.order_by(Post.timestamp.desc()).all()
 	return render_template('index.html', form=form, posts=posts)
-
-
-
-@app.route('/moderate')
-@login_required
-# @permission_required(Permission.MODERATE_COMMENTS)
-def moderate():
-	page = request.args.get('page', 1, type=int)
-	pagination = Comment.query.order_by(Comment.timestamp.desc()).paginate(
-		page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
-		error_out=False)
-	comments = pagination.items
-	return render_template('moderate.html', comments=comments,
-							pagination=pagination, page=page)
-
-@app.route('/moderate/enable/<int:id>')
-@login_required
-
-def moderate_enable(id):
-	comment = Comment.query.get_or_404(id)
-	comment.disabled = False
-	db.session.add(comment)
-	return redirect(url_for('.moderate',
-	page=request.args.get('page', 1, type=int)))
-
-@app.route('/moderate/disable/<int:id>')
-@login_required
-
-def moderate_disable(id):
-	comment = Comment.query.get_or_404(id)
-	comment.disabled = True
-	db.session.add(comment)
-	return redirect(url_for('.moderate',
-							page=request.args.get('page', 1, type=int)))
-
-# @app.route('/admin')
-# @login_required
-# @admin_required
-# def for_admins_only():
-# 	return "For administrators!"
-
-
-@app.route('/moderator')
-@login_required
-# @permission_required(Permission.MODERATE_COMMENTS)
-def for_moderators_only():
-	return "For comment moderators!"
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -105,18 +55,71 @@ def register():
 		db.session.add(user)
 		db.session.commit()
 		flash('You can now login.')
-		# return redirect(url_for('login'))
 		return redirect('/login')
 	return render_template('register.html', title="Register", form=form)
+	
 
-# @app.template_filter('clean_querystring')
-# def clean_querystring(request_args, *keys_to_remove, **new_values):
+@app.route('/moderate')
+@login_required
+@permission_required(Permission.MODERATE_COMMENTS)
+def moderate():
+	page = request.args.get('page', 1, type=int)
+	pagination = Comment.query.order_by(Comment.timestamp.desc()).paginate(
+		page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
+		error_out=False)
+	comments = pagination.items
+	return render_template('moderate.html', comments=comments,
+							pagination=pagination, page=page)
 
-#     querystring = dict((key, value) for key, value in request_args.items())
-#     for key in keys_to_remove:
-#         querystring.pop(key, None)
-#     querystring.update(new_values)
-#     return urllib.urlencode(querystring)
+@app.route('/moderate/enable/<int:id>')
+@login_required
+
+def moderate_enable(id):
+	comment = Comment.query.get_or_404(id)
+	comment.disabled = False
+	db.session.add(comment)
+	return redirect(url_for('.moderate',
+	page=request.args.get('page', 1, type=int)))
+
+@app.route('/moderate/disable/<int:id>')
+@login_required
+
+def moderate_disable(id):
+	comment = Comment.query.get_or_404(id)
+	comment.disabled = True
+	db.session.add(comment)
+	return redirect(url_for('.moderate',
+							page=request.args.get('page', 1, type=int)))
+
+@app.route('/admin')
+@login_required
+@admin_required
+def for_admins_only():
+	return "For administrators!"
+
+
+@app.route('/moderator')
+@login_required
+@permission_required(Permission.MODERATE_COMMENTS)
+def for_moderators_only():
+	return "For comment moderators!"
+
+
+@app.route('/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit(id):
+	post = Post.query.get_or_404(id)
+	if current_user != post.author and \
+			not current_user.can(Permission.ADMINISTER):
+		abort(403)
+	form = PostForm()
+	if form.validate_on_submit():
+		post.body = form.body.data
+		db.session.add(post)
+		flash('The post has been updated.')
+		return redirect(url_for('post', id=post.id))
+	form.body.data = post.body
+	return render_template('edit_post.html', form=form)
 
 @app.errorhandler(404)
 def not_found_error(error):
